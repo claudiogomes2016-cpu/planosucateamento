@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BALL SUCATEAMENTO PRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --azul-ball: #1140FE; --ouro: #fbbf24; }
+        /* FORÇA MAIÚSCULAS EM TUDO */
+        * { text-transform: uppercase !important; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: #cbd5e1; margin: 0; padding: 0; }
+        
+        .app-container { background: #f8fafc; height: 100dvh; width: 100%; max-width: 1000px; margin: 0 auto; position: relative; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 60px rgba(0,0,0,0.3); }
+        header { background-color: var(--azul-ball); height: 70px; display: flex; align-items: center; padding: 0 15px; border-bottom: 4px solid var(--ouro); shrink: 0; }
+        main { flex: 1; overflow-y: auto; padding: 12px 18px; padding-bottom: 90px; }
+
+        .titulo-padrao { font-size: 11px; font-weight: 900; color: #000000; margin-bottom: 4px; display: block; }
+        input, select, textarea { font-size: 14px !important; border: 2px solid #cbd5e1 !important; border-radius: 10px !important; font-weight: 700 !important; color: #000000 !important; }
+
+        .btn-choice { background-color: white; border: 2px solid var(--azul-ball); border-radius: 10px; padding: 12px 4px; color: #000000; font-weight: 800; font-size: 12px; transition: 0.2s; cursor: pointer; text-align: center; }
+        .btn-choice.active { background-color: #1e40af; color: white !important; border-color: var(--ouro); }
+
+        .fixed-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 75px; background-color: var(--azul-ball); display: flex; z-index: 100; border-top: 2px solid rgba(255,255,255,0.1); }
+        .tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); gap: 2px; transition: 0.2s; }
+        .tab-btn.tab-active { color: white !important; border-top: 4px solid var(--ouro); background: rgba(255,255,255,0.1); font-weight: 900; }
+        .tab-btn span { font-size: 11px; font-weight: 900; }
+
+        #relogio { background-color: white; color: var(--azul-ball); border-radius: 6px; font-weight: 900; padding: 2px 8px; font-size: 12px; }
+        
+        .no-bold { font-weight: 400 !important; }
+        ::placeholder { font-weight: 400 !important; opacity: 0.5; }
+
+        .responsive-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        @media (min-width: 768px) { .responsive-grid { grid-template-columns: 1fr 1fr; gap: 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header>
+            <div class="flex items-center gap-3 w-full">
+                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center border-2 border-yellow-400 shadow-sm shrink-0">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="#1140FE"><path d="M17,5v14c0,1.1-0.9,2-2,2H9c-1.1,0-2-0.9-2-2V5c0-1.1,0.9-2,2-2h6C16.1,3,17,3.9,17,5z M9,5v14h6V5H9z M10,7h4v1h-4V7z M10,16h4v1h-4V16z"/></svg>
+                </div>
+                <div>
+                    <h1 class="text-white text-sm md:text-lg font-black uppercase italic leading-none">PLANO SUCATEAMENTO</h1>
+                    <p class="text-blue-100 text-[9px] font-bold">TRÊS RIOS - RJ</p>
+                </div>
+                <div id="relogio" class="ml-auto">00:00</div>
+            </div>
+        </header>
+
+        <main>
+            <!-- ABA REGISTRO -->
+            <section id="aba-registro" class="space-y-4 animate-in fade-in">
+                <div class="grid grid-cols-2 gap-2">
+                    <div><span class="titulo-padrao">TURNO</span><select id="reg-turno" class="w-full no-bold"><option>TURNO A</option><option>TURNO B</option><option>TURNO C</option><option>TURNO D</option></select></div>
+                    <div><span class="titulo-padrao">CONFERENTE</span><select id="reg-conferente" class="w-full no-bold"><option>ROMUALDO</option><option>TAKENAWA</option><option>LUIZ</option><option>JOSÉ CLÁUDIO</option><option>DEIVEDE</option></select></div>
+                </div>
+                <div class="space-y-1"><span class="titulo-padrao underline">NOME COLABORADOR SODEXO</span><input type="text" id="reg-sodexo" placeholder="NOME" class="w-full p-2"></div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-blue-50 p-3 rounded-xl border-2 border-blue-200 text-center shadow-sm"><span class="titulo-padrao text-blue-700">SODEXO (PAL)</span><input type="number" id="reg-qtdS" value="0" class="w-full bg-transparent text-3xl font-black text-blue-900 text-center outline-none"></div>
+                    <div class="bg-slate-50 p-3 rounded-xl border-2 border-slate-300 text-center shadow-sm"><span class="titulo-padrao">INHAUS (PAL)</span><input type="number" id="reg-qtdI" value="0" class="w-full bg-transparent text-3xl font-black text-slate-900 text-center outline-none"></div>
+                </div>
+                <div class="space-y-1"><span class="titulo-padrao">MOTIVO</span><div class="grid grid-cols-2 gap-2"><button onclick="setMotivo(this, 'HFI', 'reg')" class="btn-choice btn-reg-mot">HFI</button><button onclick="setMotivo(this, 'PLANO DE SUCATEAMENTO', 'reg')" class="btn-choice btn-reg-mot">PLANO SUCATEAMENTO</button></div></div>
+                <div class="space-y-1"><span class="titulo-padrao">OCORRÊNCIAS</span><textarea id="reg-obs" rows="1" class="w-full p-2 no-bold" placeholder="EX. FALTA DE PESSOAS"></textarea></div>
+                <button onclick="salvarCloud()" class="w-full bg-green-600 text-white font-black py-4 rounded-xl shadow-lg uppercase text-base border-b-4 border-green-800">REGISTRAR</button>
+            </section>
+
+            <!-- ABA DASHBOARD -->
+            <section id="aba-dashboard" class="hidden space-y-4 animate-in fade-in">
+                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm">
+                    <span class="text-[9px] font-black text-slate-400">FILTRAR PERÍODO:</span>
+                    <select id="filtro-periodo" onchange="renderDash()" class="bg-slate-100 border-none rounded text-[10px] font-black p-1 outline-none text-blue-700">
+                        <option value="hoje">DIÁRIO (HOJE)</option><option value="semana">ESTA SEMANA</option><option value="mes">ESTE MÊS</option><option value="tudo">HISTÓRICO TOTAL</option>
+                    </select>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl p-4 text-white shadow-xl border-b-4 border-yellow-500">
+                    <div class="grid grid-cols-2 gap-2 text-center">
+                        <div class="border-r border-slate-700">
+                            <span class="text-[8px] text-yellow-500 font-black block mb-1 underline underline-offset-4">MILHEIRO (K)</span>
+                            <h3 id="impacto-total" class="text-2xl font-black tracking-tighter italic">0K</h3>
+                        </div>
+                        <div>
+                            <span class="text-[8px] text-yellow-500 font-black block mb-1 underline underline-offset-4">PALETES (P)</span>
+                            <h3 id="impacto-unidades" class="text-2xl font-black tracking-tighter italic">0P</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl border shadow-sm h-[320px]"><canvas id="chartProd"></canvas></div>
+                
+                <div class="grid grid-cols-2 gap-2 text-white text-center font-black uppercase text-[10px] italic">
+                    <div class="bg-slate-800 p-3 rounded-lg border-b-2 border-yellow-500 shadow"><p id="dash-S">SODEXO: 0 (0K)</p></div>
+                    <div class="bg-blue-800 p-3 rounded-lg border-b-2 border-blue-400 shadow"><p id="dash-I">INHAUS: 0 (0K)</p></div>
+                </div>
+                <div id="feed-registros" class="space-y-2 pb-10"></div>
+            </section>
+
+            <!-- ABA GESTOR -->
+            <section id="aba-gestor" class="hidden">
+                <div id="gestor-login" class="py-10 text-center space-y-4 max-w-sm mx-auto">
+                    <h2 class="text-xl font-black italic underline underline-offset-8 decoration-blue-600">GESTOR</h2>
+                    <input type="password" id="pass-gestor" placeholder="SENHA" class="w-full p-3 border-b-4 border-blue-600 text-center text-5xl font-black outline-none bg-transparent">
+                    <button onclick="loginGestor()" class="w-full bg-slate-900 text-white py-3 rounded-xl font-black uppercase shadow-lg">ENTRAR</button>
+                </div>
+                <div id="gestor-painel" class="hidden space-y-4">
+                    <button onclick="location.reload()" class="bg-red-600 text-white font-black py-3 rounded-xl w-full text-xs">SAIR DA GESTÃO</button>
+                    <div id="lista-edicao" class="space-y-2"></div>
+                </div>
+
+                <!-- MODAL EDIÇÃO COMPLETO (ESPELHO DO REGISTRO) -->
+                <div id="modal-editar" class="hidden fixed inset-0 bg-slate-950/95 flex items-center justify-center p-4 z-[200] overflow-y-auto">
+                    <div class="bg-white w-full max-w-lg rounded-[2rem] p-6 space-y-4 animate-in zoom-in">
+                        <h3 class="text-xl font-black text-center text-blue-700 underline decoration-ouro underline-offset-4 uppercase">Editar Registro</h3>
+                        <input type="hidden" id="edit-id">
+                        
+                        <div class="grid grid-cols-2 gap-2">
+                            <div><span class="titulo-padrao">TURNO</span><select id="edit-turno" class="w-full no-bold"><option>TURNO A</option><option>TURNO B</option><option>TURNO C</option><option>TURNO D</option></select></div>
+                            <div><span class="titulo-padrao">CONFERENTE</span><select id="edit-conferente" class="w-full no-bold"><option>ROMUALDO</option><option>TAKENAWA</option><option>LUIZ</option><option>JOSÉ CLÁUDIO</option><option>DEIVEDE</option></select></div>
+                        </div>
+
+                        <div><span class="titulo-padrao">NOME COLABORADOR SODEXO</span><input type="text" id="edit-sodexo" class="w-full p-2"></div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-blue-50 p-2 rounded-xl border text-center">
+                                <span class="titulo-padrao text-blue-600">SODEXO (PAL)</span>
+                                <input type="number" id="edit-qtdS" class="w-full bg-transparent text-2xl font-black text-blue-900 text-center outline-none">
+                            </div>
+                            <div class="bg-slate-50 p-2 rounded-xl border text-center">
+                                <span class="titulo-padrao">INHAUS (PAL)</span>
+                                <input type="number" id="edit-qtdI" class="w-full bg-transparent text-2xl font-black text-slate-900 text-center outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="titulo-padrao">MOTIVO</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="btn-edit-hfi" onclick="setMotivo(this, 'HFI', 'edit')" class="btn-choice btn-edit-mot">HFI</button>
+                                <button id="btn-edit-plano" onclick="setMotivo(this, 'PLANO DE SUCATEAMENTO', 'edit')" class="btn-choice btn-edit-mot">PLANO SUCATEAMENTO</button>
+                            </div>
+                        </div>
+
+                        <div><span class="titulo-padrao">OCORRÊNCIAS</span><textarea id="edit-obs" rows="1" class="w-full p-2 no-bold"></textarea></div>
+
+                        <div class="flex flex-col gap-2 pt-2">
+                            <button onclick="confirmarEdicaoCloud()" class="w-full bg-blue-700 text-white py-4 rounded-xl font-black shadow-lg uppercase">SALVAR ALTERAÇÕES</button>
+                            <button onclick="fecharModal()" class="w-full font-black text-slate-400 text-xs p-2">CANCELAR / VOLTAR</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <nav class="fixed-nav">
+            <button onclick="mudarTab('aba-registro', this)" class="tab-btn tab-active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 19l7-7 3 3-7 7-3-3zM18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg><span>REGISTRO</span></button>
+            <button onclick="mudarTab('aba-dashboard', this)" class="tab-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span>PAINEL</span></button>
+            <button onclick="mudarTab('aba-gestor', this)" class="tab-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>GESTOR</span></button>
+        </nav>
+    </div>
+
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyD0GO-fxvhDiSMLvNWW3gSZrg3APRqIomo", authDomain: "planosucateamento.firebaseapp.com", databaseURL: "https://planosucateamento-default-rtdb.firebaseio.com", projectId: "planosucateamento", storageBucket: "planosucateamento.firebasestorage.app", messagingSenderId: "427622341849", appId: "1:427622341849:web:7c288365307a7edaf0f2c8", measurementId: "G-C534E4KC7M" };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        Chart.register(ChartDataLabels);
+
+        let db_global = []; let motivoReg = ""; let motivoEdit = ""; const FATOR_K = 8.5;
+        const CONFERENTES_LISTA = ['ROMUALDO', 'TAKENAWA', 'LUIZ', 'JOSÉ CLÁUDIO', 'DEIVEDE'];
+
+        setInterval(() => { const now = new Date(); document.getElementById('relogio').innerText = now.toLocaleTimeString().substring(0,5); }, 1000);
+
+        database.ref('sucateamento').on('value', (snapshot) => {
+            const data = snapshot.val();
+            db_global = data ? Object.keys(data).map(key => ({...data[key], cloudId: key})) : [];
+            renderDash();
+            if(!document.getElementById('gestor-painel').classList.contains('hidden')) renderGestor();
+        });
+
+        function setMotivo(btn, val, context) {
+            const selector = context === 'reg' ? '.btn-reg-mot' : '.btn-edit-mot';
+            document.querySelectorAll(selector).forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(context === 'reg') motivoReg = val; else motivoEdit = val;
+        }
+
+        function mudarTab(id, btn) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
+            btn.classList.add('tab-active');
+            if(id === 'aba-dashboard') renderDash();
+        }
+
+        function salvarCloud() {
+            const sod = document.getElementById('reg-sodexo').value;
+            const qs = parseInt(document.getElementById('reg-qtdS').value) || 0;
+            const qi = parseInt(document.getElementById('reg-qtdI').value) || 0;
+            if(!sod || !motivoReg) return alert("BALL: PREENCHA NOME E MOTIVO!");
+
+            database.ref('sucateamento').push({
+                data: new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}),
+                turno: document.getElementById('reg-turno').value, conferente: document.getElementById('reg-conferente').value,
+                sodexo: sod, qtdSodexo: qs, qtdInhaus: qi, motivo: motivoReg, obs: document.getElementById('reg-obs').value, timestamp: Date.now()
+            }).then(() => {
+                alert("REGISTRADO!");
+                document.getElementById('reg-sodexo').value = ""; document.getElementById('reg-qtdS').value="0"; 
+                document.getElementById('reg-qtdI').value="0"; document.getElementById('reg-obs').value="";
+                document.querySelectorAll('.btn-reg-mot').forEach(b => b.classList.remove('active')); motivoReg = "";
+            });
+        }
+
+        function renderDash() {
+            const periodo = document.getElementById('filtro-periodo').value;
+            const hojeStr = new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
+            const agora = Date.now();
+            
+            let filtered = db_global.filter(r => {
+                if(periodo === 'hoje') return r.data === hojeStr;
+                if(periodo === 'semana') return (agora - r.timestamp) < 7 * 24 * 60 * 60 * 1000;
+                if(periodo === 'mes') return (agora - r.timestamp) < 30 * 24 * 60 * 60 * 1000;
+                return true;
+            });
+
+            const sorted = [...filtered].sort((a,b) => b.timestamp - a.timestamp);
+            const ts = filtered.reduce((a,b) => a + (b.qtdSodexo || 0), 0);
+            const ti = filtered.reduce((a,b) => a + (b.qtdInhaus || 0), 0);
+            const totalK = (ts + ti) * FATOR_K;
+
+            document.getElementById('impacto-total').innerText = totalK >= 1000 ? (totalK/1000).toFixed(1) + 'M' : totalK.toFixed(0) + 'K';
+            document.getElementById('impacto-unidades').innerText = (ts + ti) + ' P';
+            document.getElementById('dash-S').innerText = 'SOD: ' + ts + ' (' + (ts*FATOR_K).toFixed(0) + 'K)';
+            document.getElementById('dash-I').innerText = 'INH: ' + ti + ' (' + (ti*FATOR_K).toFixed(0) + 'K)';
+
+            const f = document.getElementById('feed-registros'); f.innerHTML = "";
+            sorted.forEach(r => {
+                const vk = ((r.qtdSodexo+r.qtdInhaus)*FATOR_K).toFixed(0);
+                const letra = r.conferente.charAt(0).toUpperCase();
+                f.innerHTML += `<div class="bg-white p-4 rounded-xl border-2 flex justify-between items-center shadow-sm">
+                    <div class="font-black italic">
+                        <div class="text-[14px] font-black uppercase text-slate-800 underline decoration-blue-600 decoration-4 italic">[${letra}] ${r.conferente} • <span class="text-blue-700">${r.motivo}</span></div>
+                        <div class="text-[11px] text-slate-600 font-extrabold uppercase mt-1 italic tracking-widest font-black leading-none italic underline decoration-slate-300 italic italic">SOD: ${r.sodexo}</div>
+                        <div class="text-[10px] text-slate-400 font-black mt-1 italic italic">${r.data} • ${r.turno}</div>
+                    </div>
+                    <div class="text-right border-l-2 pl-3 ml-2 font-black text-slate-800 text-lg tracking-tighter">${r.qtdSodexo+r.qtdInhaus}/${vk}k</div>
+                </div>`;
+            });
+            updateChart(filtered);
+        }
+
+        function updateChart(data) {
+            const ctx = document.getElementById('chartProd').getContext('2d'); if(window.mChart) window.mChart.destroy();
+            const sodData = CONFERENTES_LISTA.map(name => data.filter(r => r.conferente.toUpperCase().includes(name.split(' ')[0])).reduce((a,b) => a + (b.qtdSodexo||0), 0));
+            const inhData = CONFERENTES_LISTA.map(name => data.filter(r => r.conferente.toUpperCase().includes(name.split(' ')[0])).reduce((a,b) => a + (b.qtdInhaus||0), 0));
+
+            window.mChart = new Chart(ctx, { 
+                type: 'bar', data: { labels: CONFERENTES_LISTA.map(n => n.split(' ')[0]), datasets: [
+                    { label:'SODEXO', data:sodData, backgroundColor:'#fbbf24', borderRadius:10 },
+                    { label:'INHAUS', data:inhData, backgroundColor:'#1140FE', borderRadius:10 }
+                ]},
+                options: { indexAxis: 'y', maintainAspectRatio: false, layout: { padding: { right: 45 } },
+                plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'right', color: '#000', font: { weight: '900', size: 13 }, formatter: (v) => v > 0 ? v + 'P' : '' } },
+                scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { weight: '900', size: 11 }, color: '#000' } } } }
+            });
+        }
+
+        function loginGestor() { if(document.getElementById('pass-gestor').value === '1570') { document.getElementById('gestor-login').classList.add('hidden'); document.getElementById('gestor-painel').classList.remove('hidden'); renderGestor(); } }
+        function fecharModal() { document.getElementById('modal-editar').classList.add('hidden'); }
+        
+        function renderGestor() {
+            const l = document.getElementById('lista-edicao'); if(!l) return; l.innerHTML = "";
+            db_global.slice().reverse().forEach(r => {
+                l.innerHTML += `<div class="bg-[#1140FE] p-5 border-2 border-white/20 rounded-2xl flex justify-between items-center shadow-lg font-black text-white uppercase italic">
+                    <span>${r.conferente} (${r.data})</span>
+                    <div class="flex gap-2">
+                        <button onclick="abrirEdicao('${r.cloudId}')" class="bg-white text-[#1140FE] px-5 py-3 rounded-xl font-black text-xs shadow-md">EDITAR</button>
+                        <button onclick="excluir('${r.cloudId}')" class="bg-red-500 text-white px-5 py-3 rounded-xl font-black text-xs shadow-md">EXCLUIR</button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function abrirEdicao(id) {
+            const r = db_global.find(x => x.cloudId === id);
+            document.getElementById('edit-id').value = id;
+            document.getElementById('edit-turno').value = r.turno;
+            document.getElementById('edit-conferente').value = r.conferente;
+            document.getElementById('edit-sodexo').value = r.sodexo;
+            document.getElementById('edit-qtdS').value = r.qtdSodexo;
+            document.getElementById('edit-qtdI').value = r.qtdInhaus;
+            document.getElementById('edit-obs').value = r.obs || "";
+            
+            // Ativa botão de motivo no modal
+            const btns = document.querySelectorAll('.btn-edit-mot');
+            btns.forEach(b => {
+                b.classList.remove('active');
+                if(b.innerText === r.motivo || (b.innerText === 'PLANO SUCATEAMENTO' && r.motivo === 'PLANO DE SUCATEAMENTO')) b.classList.add('active');
+            });
+            motivoEdit = r.motivo;
+            document.getElementById('modal-editar').classList.remove('hidden');
+        }
+
+        function confirmarEdicaoCloud() {
+            const id = document.getElementById('edit-id').value;
+            database.ref('sucateamento/' + id).update({
+                turno: document.getElementById('edit-turno').value,
+                conferente: document.getElementById('edit-conferente').value,
+                sodexo: document.getElementById('edit-sodexo').value,
+                qtdSodexo: parseInt(document.getElementById('edit-qtdS').value),
+                qtdInhaus: parseInt(document.getElementById('edit-qtdI').value),
+                motivo: motivoEdit,
+                obs: document.getElementById('edit-obs').value
+            }).then(() => { fecharModal(); alert("✅ SUCESSO: REGISTRO ATUALIZADO!"); });
+        }
+
+        function excluir(id) { if(confirm("REMOVER DEFINITIVAMENTE?")) database.ref('sucateamento/' + id).remove(); }
+        function mudarTab(id, btn) { 
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); 
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active')); btn.classList.add('tab-active'); 
+            if(id === 'aba-dashboard') renderDash();
+            if(id === 'aba-gestor' && !document.getElementById('gestor-painel').classList.contains('hidden')) renderGestor();
+        }
+    </script>
+</body>
+</html>
