@@ -16,7 +16,7 @@
         * { text-transform: uppercase !important; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background-color: #cbd5e1; margin: 0; padding: 0; }
         
-        .app-container { background: #f8fafc; height: 100dvh; width: 100%; max-width: 1000px; margin: 0 auto; position: relative; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 60px rgba(0,0,0,0.3); }
+        .app-container { background: #f8fafc; height: 100dvh; width: 100%; max-width: 1000px; margin: 0 auto; position: relative; display: flex; flex-direction: column; overflow: hidden; }
         header { background-color: var(--azul-ball); height: 70px; display: flex; align-items: center; padding: 0 15px; border-bottom: 4px solid var(--ouro); shrink: 0; }
         main { flex: 1; overflow-y: auto; padding: 12px 18px; padding-bottom: 90px; }
 
@@ -62,12 +62,12 @@
             <section id="aba-registro" class="space-y-4 animate-in fade-in">
                 <div class="grid grid-cols-2 gap-2">
                     <div><span class="titulo-padrao">TURNO</span><select id="reg-turno" class="w-full no-bold"><option>TURNO A</option><option>TURNO B</option><option>TURNO C</option><option>TURNO D</option></select></div>
-                    <div><span class="titulo-padrao">CONFERENTE</span><select id="reg-conferente" class="w-full no-bold"><option>ROMUALDO</option><option>TAKENAWA</option><option>LUIZ</option><option>JOSÉ CLÁUDIO</option><option>DEIVEDE</option></select></div>
+                    <div><span class="titulo-padrao">CONFERENTE</span><select id="reg-conferente" class="w-full no-bold"><option>ROMUALDO</option><option>TAKENAWA</option><option>LUIZ</option><option>JOSÉ CLÁUDIO</option></select></div>
                 </div>
                 <div class="space-y-1"><span class="titulo-padrao underline">NOME COLABORADOR SODEXO</span><input type="text" id="reg-sodexo" placeholder="NOME" class="w-full p-2"></div>
                 <div class="grid grid-cols-2 gap-2">
                     <div class="bg-blue-50 p-3 rounded-xl border-2 border-blue-200 text-center shadow-sm"><span class="titulo-padrao text-blue-700">SODEXO (PAL)</span><input type="number" id="reg-qtdS" value="0" class="w-full bg-transparent text-3xl font-black text-blue-900 text-center outline-none"></div>
-                    <div class="bg-slate-50 p-3 rounded-xl border-2 border-slate-300 text-center shadow-sm"><span class="titulo-padrao">INHAUS (PAL)</span><input type="number" id="reg-qtdI" value="0" class="w-full bg-transparent text-3xl font-black text-slate-900 text-center outline-none"></div>
+                    <div class="bg-slate-50 p-3 rounded-xl border-2 border-slate-300 text-center shadow-sm"><span class="titulo-padrao">INHAUS (PAL)</span><input type="number" id="reg-qtdI" value="0" class="w-full bg-transparent text-4xl font-black text-slate-900 text-center outline-none"></div>
                 </div>
                 <div class="space-y-1"><span class="titulo-padrao">MOTIVO</span><div class="grid grid-cols-2 gap-2"><button onclick="setMotivo(this, 'HFI', 'reg')" class="btn-choice btn-reg-mot">HFI</button><button onclick="setMotivo(this, 'PLANO DE SUCATEAMENTO', 'reg')" class="btn-choice btn-reg-mot">PLANO SUCATEAMENTO</button></div></div>
                 <div class="space-y-1"><span class="titulo-padrao">OCORRÊNCIAS</span><textarea id="reg-obs" rows="1" class="w-full p-2 no-bold" placeholder="EX. FALTA DE PESSOAS"></textarea></div>
@@ -83,7 +83,7 @@
                     </select>
                 </div>
 
-                <div class="bg-slate-900 rounded-2xl p-4 text-white shadow-xl border-b-4 border-yellow-500">
+                <div class="bg-slate-900 rounded-[2rem] p-4 text-white shadow-xl border-b-8 border-yellow-500">
                     <div class="grid grid-cols-2 gap-2 text-center">
                         <div class="border-r border-slate-700">
                             <span class="text-[8px] text-yellow-500 font-black block mb-1 underline underline-offset-4">MILHEIRO (K)</span>
@@ -117,7 +117,7 @@
                     <div id="lista-edicao" class="space-y-2"></div>
                 </div>
 
-                <!-- MODAL EDIÇÃO COMPLETO (ESPELHO DO REGISTRO) -->
+                <!-- MODAL EDIÇÃO COMPLETO -->
                 <div id="modal-editar" class="hidden fixed inset-0 bg-slate-950/95 flex items-center justify-center p-4 z-[200] overflow-y-auto">
                     <div class="bg-white w-full max-w-lg rounded-[2rem] p-6 space-y-4 animate-in zoom-in">
                         <h3 class="text-xl font-black text-center text-blue-700 underline decoration-ouro underline-offset-4 uppercase">Editar Registro</h3>
@@ -125,7 +125,7 @@
                         
                         <div class="grid grid-cols-2 gap-2">
                             <div><span class="titulo-padrao">TURNO</span><select id="edit-turno" class="w-full no-bold"><option>TURNO A</option><option>TURNO B</option><option>TURNO C</option><option>TURNO D</option></select></div>
-                            <div><span class="titulo-padrao">CONFERENTE</span><select id="edit-conferente" class="w-full no-bold"><option>ROMUALDO</option><option>TAKENAWA</option><option>LUIZ</option><option>JOSÉ CLÁUDIO</option><option>DEIVEDE</option></select></div>
+                            <div><span class="titulo-padrao">CONFERENTE</span><select id="edit-conferente" class="w-full no-bold"><option>ROMUALDO</option><option>TAKENAWA</option><option>LUIZ</option><option>JOSÉ CLÁUDIO</option></select></div>
                         </div>
 
                         <div><span class="titulo-padrao">NOME COLABORADOR SODEXO</span><input type="text" id="edit-sodexo" class="w-full p-2"></div>
@@ -162,7 +162,7 @@
 
         <nav class="fixed-nav">
             <button onclick="mudarTab('aba-registro', this)" class="tab-btn tab-active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 19l7-7 3 3-7 7-3-3zM18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg><span>REGISTRO</span></button>
-            <button onclick="mudarTab('aba-dashboard', this)" class="tab-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span>PAINEL</span></button>
+            <button onclick="mudarTab('aba-dashboard', this)" class="tab-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>PAINEL</span></button>
             <button onclick="mudarTab('aba-gestor', this)" class="tab-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>GESTOR</span></button>
         </nav>
     </div>
@@ -174,7 +174,8 @@
         Chart.register(ChartDataLabels);
 
         let db_global = []; let motivoReg = ""; let motivoEdit = ""; const FATOR_K = 8.5;
-        const CONFERENTES_LISTA = ['ROMUALDO', 'TAKENAWA', 'LUIZ', 'JOSÉ CLÁUDIO', 'DEIVEDE'];
+        const CONFERENTES_LISTA = ['ROMUALDO', 'TAKENAWA', 'LUIZ', 'JOSÉ CLÁUDIO'];
+        const SHIFT_MAP = { 'ROMUALDO': 'C', 'TAKENAWA': 'B', 'LUIZ': 'A', 'JOSÉ CLÁUDIO': 'D' };
 
         setInterval(() => { const now = new Date(); document.getElementById('relogio').innerText = now.toLocaleTimeString().substring(0,5); }, 1000);
 
@@ -204,7 +205,7 @@
             const sod = document.getElementById('reg-sodexo').value;
             const qs = parseInt(document.getElementById('reg-qtdS').value) || 0;
             const qi = parseInt(document.getElementById('reg-qtdI').value) || 0;
-            if(!sod || !motivoReg) return alert("BALL: PREENCHA NOME E MOTIVO!");
+            if(!sod || !motivoReg) return alert("PREENCHA NOME E MOTIVO!");
 
             database.ref('sucateamento').push({
                 data: new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}),
@@ -220,13 +221,17 @@
 
         function renderDash() {
             const periodo = document.getElementById('filtro-periodo').value;
-            const hojeStr = new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
-            const agora = Date.now();
+            const hoje = new Date();
+            const hojeStr = hoje.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
+            const mesAtual = hoje.getMonth();
+            const anoAtual = hoje.getFullYear();
             
             let filtered = db_global.filter(r => {
+                const rDate = new Date(r.timestamp);
                 if(periodo === 'hoje') return r.data === hojeStr;
-                if(periodo === 'semana') return (agora - r.timestamp) < 7 * 24 * 60 * 60 * 1000;
-                if(periodo === 'mes') return (agora - r.timestamp) < 30 * 24 * 60 * 60 * 1000;
+                if(periodo === 'semana') return (Date.now() - r.timestamp) < 7 * 24 * 60 * 60 * 1000;
+                // CORREÇÃO: Filtra apenas pelo mês e ano atuais do calendário
+                if(periodo === 'mes') return rDate.getMonth() === mesAtual && rDate.getFullYear() === anoAtual;
                 return true;
             });
 
@@ -244,13 +249,13 @@
             sorted.forEach(r => {
                 const vk = ((r.qtdSodexo+r.qtdInhaus)*FATOR_K).toFixed(0);
                 const letra = r.conferente.charAt(0).toUpperCase();
-                f.innerHTML += `<div class="bg-white p-4 rounded-xl border-2 flex justify-between items-center shadow-sm">
+                f.innerHTML += `<div class="bg-white p-3.5 rounded-xl border-2 flex justify-between items-center shadow-sm">
                     <div class="font-black italic">
                         <div class="text-[14px] font-black uppercase text-slate-800 underline decoration-blue-600 decoration-4 italic">[${letra}] ${r.conferente} • <span class="text-blue-700">${r.motivo}</span></div>
-                        <div class="text-[11px] text-slate-600 font-extrabold uppercase mt-1 italic tracking-widest font-black leading-none italic underline decoration-slate-300 italic italic">SOD: ${r.sodexo}</div>
-                        <div class="text-[10px] text-slate-400 font-black mt-1 italic italic">${r.data} • ${r.turno}</div>
+                        <div class="text-[10px] text-slate-600 font-extrabold uppercase mt-1 italic">SOD: ${r.sodexo}</div>
+                        <div class="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-tight italic">${r.data} • ${r.turno}</div>
                     </div>
-                    <div class="text-right border-l-2 pl-3 ml-2 font-black text-slate-800 text-lg tracking-tighter">${r.qtdSodexo+r.qtdInhaus}/${vk}k</div>
+                    <div class="text-right border-l-2 pl-3 ml-3 font-black text-slate-800 text-lg italic tracking-tighter">${r.qtdSodexo+r.qtdInhaus}/${vk}k</div>
                 </div>`;
             });
             updateChart(filtered);
@@ -262,13 +267,13 @@
             const inhData = CONFERENTES_LISTA.map(name => data.filter(r => r.conferente.toUpperCase().includes(name.split(' ')[0])).reduce((a,b) => a + (b.qtdInhaus||0), 0));
 
             window.mChart = new Chart(ctx, { 
-                type: 'bar', data: { labels: CONFERENTES_LISTA.map(n => n.split(' ')[0]), datasets: [
-                    { label:'SODEXO', data:sodData, backgroundColor:'#fbbf24', borderRadius:10 },
-                    { label:'INHAUS', data:inhData, backgroundColor:'#1140FE', borderRadius:10 }
+                type: 'bar', data: { labels: CONFERENTES_LISTA.map(n => `${n} - TURNO ${SHIFT_MAP[n]}`), datasets: [
+                    { label:'SODEXO', data:sodData, backgroundColor:'#fbbf24', borderRadius:5 },
+                    { label:'INHAUS', data:inhData, backgroundColor:'#1140FE', borderRadius:5 }
                 ]},
                 options: { indexAxis: 'y', maintainAspectRatio: false, layout: { padding: { right: 45 } },
                 plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'right', color: '#000', font: { weight: '900', size: 13 }, formatter: (v) => v > 0 ? v + 'P' : '' } },
-                scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { weight: '900', size: 11 }, color: '#000' } } } }
+                scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { weight: '900', size: 10 }, color: '#000' } } } }
             });
         }
 
@@ -276,13 +281,13 @@
         function fecharModal() { document.getElementById('modal-editar').classList.add('hidden'); }
         
         function renderGestor() {
-            const l = document.getElementById('lista-edicao'); if(!l) return; l.innerHTML = "";
+            const l = document.getElementById('lista-edicao'); l.innerHTML = "";
             db_global.slice().reverse().forEach(r => {
                 l.innerHTML += `<div class="bg-[#1140FE] p-5 border-2 border-white/20 rounded-2xl flex justify-between items-center shadow-lg font-black text-white uppercase italic">
                     <span>${r.conferente} (${r.data})</span>
                     <div class="flex gap-2">
-                        <button onclick="abrirEdicao('${r.cloudId}')" class="bg-white text-[#1140FE] px-5 py-3 rounded-xl font-black text-xs shadow-md">EDITAR</button>
-                        <button onclick="excluir('${r.cloudId}')" class="bg-red-500 text-white px-5 py-3 rounded-xl font-black text-xs shadow-md">EXCLUIR</button>
+                        <button onclick="abrirEdicao('${r.cloudId}')" class="bg-white text-[#1140FE] px-5 py-3 rounded-xl font-black text-xs shadow-md italic tracking-tighter">EDITAR</button>
+                        <button onclick="excluir('${r.cloudId}')" class="bg-red-500 text-white px-5 py-3 rounded-xl font-black text-xs shadow-md italic tracking-tighter">EXCLUIR</button>
                     </div>
                 </div>`;
             });
@@ -298,7 +303,6 @@
             document.getElementById('edit-qtdI').value = r.qtdInhaus;
             document.getElementById('edit-obs').value = r.obs || "";
             
-            // Ativa botão de motivo no modal
             const btns = document.querySelectorAll('.btn-edit-mot');
             btns.forEach(b => {
                 b.classList.remove('active');
@@ -318,10 +322,9 @@
                 qtdInhaus: parseInt(document.getElementById('edit-qtdI').value),
                 motivo: motivoEdit,
                 obs: document.getElementById('edit-obs').value
-            }).then(() => { fecharModal(); alert("✅ SUCESSO: REGISTRO ATUALIZADO!"); });
+            }).then(() => { fecharModal(); alert("✅ SINC ALTERADO!"); });
         }
-
-        function excluir(id) { if(confirm("REMOVER DEFINITIVAMENTE?")) database.ref('sucateamento/' + id).remove(); }
+        function excluir(id) { if(confirm("REMOVER DEFINITIVAMENTE DO BANCO BALL?")) database.ref('sucateamento/' + id).remove(); }
         function mudarTab(id, btn) { 
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); 
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active')); btn.classList.add('tab-active'); 
