@@ -12,30 +12,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root { --azul-ball: #1140FE; --ouro: #fbbf24; }
-        /* FORÇA MAIÚSCULAS EM TUDO */
         * { text-transform: uppercase !important; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background-color: #cbd5e1; margin: 0; padding: 0; }
-        
-        .app-container { background: #f8fafc; height: 100dvh; width: 100%; max-width: 1000px; margin: 0 auto; position: relative; display: flex; flex-direction: column; overflow: hidden; }
-        header { background-color: var(--azul-ball); height: 70px; display: flex; align-items: center; padding: 0 15px; border-bottom: 4px solid var(--ouro); shrink: 0; }
-        main { flex: 1; overflow-y: auto; padding: 12px 18px; padding-bottom: 90px; }
-
+        .app-container { background: #f8fafc; height: 100dvh; width: 100%; max-width: 1000px; margin: 0 auto; position: relative; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 60px rgba(0,0,0,0.3); }
+        header { background-color: var(--azul-ball); height: 75px; display: flex; align-items: center; padding: 0 15px; border-bottom: 4px solid var(--ouro); shrink: 0; }
+        main { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 90px; }
         .titulo-padrao { font-size: 11px; font-weight: 900; color: #000000; margin-bottom: 4px; display: block; }
         input, select, textarea { font-size: 14px !important; border: 2px solid #cbd5e1 !important; border-radius: 10px !important; font-weight: 700 !important; color: #000000 !important; }
-
         .btn-choice { background-color: white; border: 2px solid var(--azul-ball); border-radius: 10px; padding: 12px 4px; color: #000000; font-weight: 800; font-size: 12px; transition: 0.2s; cursor: pointer; text-align: center; }
         .btn-choice.active { background-color: #1e40af; color: white !important; border-color: var(--ouro); }
-
         .fixed-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 75px; background-color: var(--azul-ball); display: flex; z-index: 100; border-top: 2px solid rgba(255,255,255,0.1); }
         .tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); gap: 2px; transition: 0.2s; }
         .tab-btn.tab-active { color: white !important; border-top: 4px solid var(--ouro); background: rgba(255,255,255,0.1); font-weight: 900; }
         .tab-btn span { font-size: 11px; font-weight: 900; }
-
         #relogio { background-color: white; color: var(--azul-ball); border-radius: 6px; font-weight: 900; padding: 2px 8px; font-size: 12px; }
-        
         .no-bold { font-weight: 400 !important; }
         ::placeholder { font-weight: 400 !important; opacity: 0.5; }
-
         .responsive-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
         @media (min-width: 768px) { .responsive-grid { grid-template-columns: 1fr 1fr; gap: 20px; } }
     </style>
@@ -43,7 +35,6 @@
 <body>
 
     <div class="app-container">
-        <!-- HEADER -->
         <header>
             <div class="flex items-center gap-3 w-full">
                 <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center border-2 border-yellow-400 shadow-sm shrink-0">
@@ -59,7 +50,7 @@
 
         <main>
             <!-- ABA REGISTRO -->
-            <section id="aba-registro" class="space-y-4 animate-in fade-in">
+            <section id="aba-registro" class="space-y-4">
                 <div class="grid grid-cols-2 gap-2">
                     <div><span class="titulo-padrao">TURNO</span><select id="reg-turno" class="w-full no-bold"><option>TURNO A</option><option>TURNO B</option><option>TURNO C</option><option>TURNO D</option></select></div>
                     <div><span class="titulo-padrao">CONFERENTE</span><select id="reg-conferente" class="w-full no-bold"><option>ROMUALDO</option><option>TAKENAWA</option><option>LUIZ</option><option>JOSÉ CLÁUDIO</option></select></div>
@@ -67,15 +58,15 @@
                 <div class="space-y-1"><span class="titulo-padrao underline">NOME COLABORADOR SODEXO</span><input type="text" id="reg-sodexo" placeholder="NOME" class="w-full p-2"></div>
                 <div class="grid grid-cols-2 gap-2">
                     <div class="bg-blue-50 p-3 rounded-xl border-2 border-blue-200 text-center shadow-sm"><span class="titulo-padrao text-blue-700">SODEXO (PAL)</span><input type="number" id="reg-qtdS" value="0" class="w-full bg-transparent text-3xl font-black text-blue-900 text-center outline-none"></div>
-                    <div class="bg-slate-50 p-3 rounded-xl border-2 border-slate-300 text-center shadow-sm"><span class="titulo-padrao">INHAUS (PAL)</span><input type="number" id="reg-qtdI" value="0" class="w-full bg-transparent text-4xl font-black text-slate-900 text-center outline-none"></div>
+                    <div class="bg-slate-50 p-3 rounded-xl border-2 border-slate-300 text-center shadow-sm"><span class="titulo-padrao">INHAUS (PAL)</span><input type="number" id="reg-qtdI" value="0" class="w-full bg-transparent text-3xl font-black text-slate-900 text-center outline-none"></div>
                 </div>
                 <div class="space-y-1"><span class="titulo-padrao">MOTIVO</span><div class="grid grid-cols-2 gap-2"><button onclick="setMotivo(this, 'HFI', 'reg')" class="btn-choice btn-reg-mot">HFI</button><button onclick="setMotivo(this, 'PLANO DE SUCATEAMENTO', 'reg')" class="btn-choice btn-reg-mot">PLANO SUCATEAMENTO</button></div></div>
                 <div class="space-y-1"><span class="titulo-padrao">OCORRÊNCIAS</span><textarea id="reg-obs" rows="1" class="w-full p-2 no-bold" placeholder="EX. FALTA DE PESSOAS"></textarea></div>
-                <button onclick="salvarCloud()" class="w-full bg-green-600 text-white font-black py-4 rounded-xl shadow-lg uppercase text-base border-b-4 border-green-800">REGISTRAR</button>
+                <button id="btn-registrar-main" onclick="salvarCloud()" class="w-full bg-green-600 text-white font-black py-4 rounded-xl shadow-lg uppercase text-base border-b-4 border-green-800">REGISTRAR</button>
             </section>
 
             <!-- ABA DASHBOARD -->
-            <section id="aba-dashboard" class="hidden space-y-4 animate-in fade-in">
+            <section id="aba-dashboard" class="hidden space-y-4">
                 <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm">
                     <span class="text-[9px] font-black text-slate-400">FILTRAR PERÍODO:</span>
                     <select id="filtro-periodo" onchange="renderDash()" class="bg-slate-100 border-none rounded text-[10px] font-black p-1 outline-none text-blue-700">
@@ -83,7 +74,7 @@
                     </select>
                 </div>
 
-                <div class="bg-slate-900 rounded-[2rem] p-4 text-white shadow-xl border-b-8 border-yellow-500">
+                <div class="bg-slate-900 rounded-[2.5rem] p-4 text-white shadow-xl border-b-8 border-yellow-500">
                     <div class="grid grid-cols-2 gap-2 text-center">
                         <div class="border-r border-slate-700">
                             <span class="text-[8px] text-yellow-500 font-black block mb-1 underline underline-offset-4">MILHEIRO (K)</span>
@@ -122,14 +113,11 @@
                     <div class="bg-white w-full max-w-lg rounded-[2rem] p-6 space-y-4 animate-in zoom-in">
                         <h3 class="text-xl font-black text-center text-blue-700 underline decoration-ouro underline-offset-4 uppercase">Editar Registro</h3>
                         <input type="hidden" id="edit-id">
-                        
                         <div class="grid grid-cols-2 gap-2">
                             <div><span class="titulo-padrao">TURNO</span><select id="edit-turno" class="w-full no-bold"><option>TURNO A</option><option>TURNO B</option><option>TURNO C</option><option>TURNO D</option></select></div>
                             <div><span class="titulo-padrao">CONFERENTE</span><select id="edit-conferente" class="w-full no-bold"><option>ROMUALDO</option><option>TAKENAWA</option><option>LUIZ</option><option>JOSÉ CLÁUDIO</option></select></div>
                         </div>
-
                         <div><span class="titulo-padrao">NOME COLABORADOR SODEXO</span><input type="text" id="edit-sodexo" class="w-full p-2"></div>
-
                         <div class="grid grid-cols-2 gap-2">
                             <div class="bg-blue-50 p-2 rounded-xl border text-center">
                                 <span class="titulo-padrao text-blue-600">SODEXO (PAL)</span>
@@ -140,20 +128,13 @@
                                 <input type="number" id="edit-qtdI" class="w-full bg-transparent text-2xl font-black text-slate-900 text-center outline-none">
                             </div>
                         </div>
-
-                        <div>
-                            <span class="titulo-padrao">MOTIVO</span>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button id="btn-edit-hfi" onclick="setMotivo(this, 'HFI', 'edit')" class="btn-choice btn-edit-mot">HFI</button>
-                                <button id="btn-edit-plano" onclick="setMotivo(this, 'PLANO DE SUCATEAMENTO', 'edit')" class="btn-choice btn-edit-mot">PLANO SUCATEAMENTO</button>
-                            </div>
+                        <div><span class="titulo-padrao">MOTIVO</span>
+                            <div class="grid grid-cols-2 gap-2"><button onclick="setMotivo(this, 'HFI', 'edit')" class="btn-choice btn-edit-mot">HFI</button><button onclick="setMotivo(this, 'PLANO DE SUCATEAMENTO', 'edit')" class="btn-choice btn-edit-mot">PLANO SUCATEAMENTO</button></div>
                         </div>
-
                         <div><span class="titulo-padrao">OCORRÊNCIAS</span><textarea id="edit-obs" rows="1" class="w-full p-2 no-bold"></textarea></div>
-
                         <div class="flex flex-col gap-2 pt-2">
                             <button onclick="confirmarEdicaoCloud()" class="w-full bg-blue-700 text-white py-4 rounded-xl font-black shadow-lg uppercase">SALVAR ALTERAÇÕES</button>
-                            <button onclick="fecharModal()" class="w-full font-black text-slate-400 text-xs p-2">CANCELAR / VOLTAR</button>
+                            <button onclick="fecharModal()" class="w-full font-black text-slate-400 text-xs p-2">CANCELAR</button>
                         </div>
                     </div>
                 </div>
@@ -193,14 +174,6 @@
             if(context === 'reg') motivoReg = val; else motivoEdit = val;
         }
 
-        function mudarTab(id, btn) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
-            btn.classList.add('tab-active');
-            if(id === 'aba-dashboard') renderDash();
-        }
-
         function salvarCloud() {
             const sod = document.getElementById('reg-sodexo').value;
             const qs = parseInt(document.getElementById('reg-qtdS').value) || 0;
@@ -223,15 +196,12 @@
             const periodo = document.getElementById('filtro-periodo').value;
             const hoje = new Date();
             const hojeStr = hoje.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
-            const mesAtual = hoje.getMonth();
-            const anoAtual = hoje.getFullYear();
             
             let filtered = db_global.filter(r => {
                 const rDate = new Date(r.timestamp);
                 if(periodo === 'hoje') return r.data === hojeStr;
                 if(periodo === 'semana') return (Date.now() - r.timestamp) < 7 * 24 * 60 * 60 * 1000;
-                // CORREÇÃO: Filtra apenas pelo mês e ano atuais do calendário
-                if(periodo === 'mes') return rDate.getMonth() === mesAtual && rDate.getFullYear() === anoAtual;
+                if(periodo === 'mes') return rDate.getMonth() === hoje.getMonth() && rDate.getFullYear() === hoje.getFullYear();
                 return true;
             });
 
@@ -249,13 +219,13 @@
             sorted.forEach(r => {
                 const vk = ((r.qtdSodexo+r.qtdInhaus)*FATOR_K).toFixed(0);
                 const letra = r.conferente.charAt(0).toUpperCase();
-                f.innerHTML += `<div class="bg-white p-3.5 rounded-xl border-2 flex justify-between items-center shadow-sm">
+                f.innerHTML += `<div class="bg-white p-4 rounded-xl border-2 flex justify-between items-center shadow-sm">
                     <div class="font-black italic">
-                        <div class="text-[14px] font-black uppercase text-slate-800 underline decoration-blue-600 decoration-4 italic">[${letra}] ${r.conferente} • <span class="text-blue-700">${r.motivo}</span></div>
-                        <div class="text-[10px] text-slate-600 font-extrabold uppercase mt-1 italic">SOD: ${r.sodexo}</div>
-                        <div class="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-tight italic">${r.data} • ${r.turno}</div>
+                        <div class="text-[14px] font-black uppercase text-slate-800 underline decoration-blue-600 decoration-4">[${letra}] ${r.conferente} • <span class="text-blue-700">${r.motivo}</span></div>
+                        <div class="text-[10px] text-slate-600 font-extrabold uppercase mt-1">SOD: ${r.sodexo}</div>
+                        <div class="text-[10px] text-slate-400 font-black mt-1">${r.data} • ${r.turno}</div>
                     </div>
-                    <div class="text-right border-l-2 pl-3 ml-3 font-black text-slate-800 text-lg italic tracking-tighter">${r.qtdSodexo+r.qtdInhaus}/${vk}k</div>
+                    <div class="text-right border-l-2 pl-3 ml-2 font-black text-slate-800 text-lg tracking-tighter">${r.qtdSodexo+r.qtdInhaus}/${vk}k</div>
                 </div>`;
             });
             updateChart(filtered);
@@ -272,8 +242,8 @@
                     { label:'INHAUS', data:inhData, backgroundColor:'#1140FE', borderRadius:5 }
                 ]},
                 options: { indexAxis: 'y', maintainAspectRatio: false, layout: { padding: { right: 45 } },
-                plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'right', color: '#000', font: { weight: '900', size: 13 }, formatter: (v) => v > 0 ? v + 'P' : '' } },
-                scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { weight: '900', size: 10 }, color: '#000' } } } }
+                plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'right', color: '#000', font: { weight: '900', size: 13 }, formatter: (v) => v > 0 ? v + 'P' : '0' } },
+                scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { weight: '900', size: 11 }, color: '#000' } } } }
             });
         }
 
@@ -292,36 +262,20 @@
                 </div>`;
             });
         }
-
         function abrirEdicao(id) {
-            const r = db_global.find(x => x.cloudId === id);
-            document.getElementById('edit-id').value = id;
-            document.getElementById('edit-turno').value = r.turno;
-            document.getElementById('edit-conferente').value = r.conferente;
-            document.getElementById('edit-sodexo').value = r.sodexo;
-            document.getElementById('edit-qtdS').value = r.qtdSodexo;
-            document.getElementById('edit-qtdI').value = r.qtdInhaus;
-            document.getElementById('edit-obs').value = r.obs || "";
-            
-            const btns = document.querySelectorAll('.btn-edit-mot');
-            btns.forEach(b => {
-                b.classList.remove('active');
-                if(b.innerText === r.motivo || (b.innerText === 'PLANO SUCATEAMENTO' && r.motivo === 'PLANO DE SUCATEAMENTO')) b.classList.add('active');
-            });
+            const r = db_global.find(x => x.cloudId === id); document.getElementById('edit-id').value = id;
+            document.getElementById('edit-turno').value = r.turno; document.getElementById('edit-conferente').value = r.conferente;
+            document.getElementById('edit-sodexo').value = r.sodexo; document.getElementById('edit-qtdS').value = r.qtdSodexo;
+            document.getElementById('edit-qtdI').value = r.qtdInhaus; document.getElementById('edit-obs').value = r.obs || "";
             motivoEdit = r.motivo;
             document.getElementById('modal-editar').classList.remove('hidden');
         }
-
         function confirmarEdicaoCloud() {
             const id = document.getElementById('edit-id').value;
             database.ref('sucateamento/' + id).update({
-                turno: document.getElementById('edit-turno').value,
-                conferente: document.getElementById('edit-conferente').value,
-                sodexo: document.getElementById('edit-sodexo').value,
-                qtdSodexo: parseInt(document.getElementById('edit-qtdS').value),
-                qtdInhaus: parseInt(document.getElementById('edit-qtdI').value),
-                motivo: motivoEdit,
-                obs: document.getElementById('edit-obs').value
+                turno: document.getElementById('edit-turno').value, conferente: document.getElementById('edit-conferente').value,
+                sodexo: document.getElementById('edit-sodexo').value, qtdSodexo: parseInt(document.getElementById('edit-qtdS').value),
+                qtdInhaus: parseInt(document.getElementById('edit-qtdI').value), motivo: motivoEdit, obs: document.getElementById('edit-obs').value
             }).then(() => { fecharModal(); alert("✅ SINC ALTERADO!"); });
         }
         function excluir(id) { if(confirm("REMOVER DEFINITIVAMENTE DO BANCO BALL?")) database.ref('sucateamento/' + id).remove(); }
@@ -329,7 +283,6 @@
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); 
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active')); btn.classList.add('tab-active'); 
             if(id === 'aba-dashboard') renderDash();
-            if(id === 'aba-gestor' && !document.getElementById('gestor-painel').classList.contains('hidden')) renderGestor();
         }
     </script>
 </body>
